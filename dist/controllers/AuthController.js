@@ -12,7 +12,7 @@ class AuthController {
         this.register = async (req, res) => {
             try {
                 const auth = req.body;
-                if (!auth.email || !auth.fullName || !auth.phone || !auth.password) {
+                if (!auth.email || !auth.fullName || !auth.password) {
                     res.status(400).json({
                         status: 400,
                         message: "All field is required",
@@ -37,8 +37,8 @@ class AuthController {
                     const newAuth = new Auth_1.default({
                         email: auth.email,
                         fullName: auth.fullName,
-                        phone: auth.phone,
                         password: hash,
+                        role: auth.role,
                     });
                     await newAuth.save();
                     res.status(201).json({
@@ -88,7 +88,8 @@ class AuthController {
                     _id: isAuthExist._id,
                     email: isAuthExist.email,
                     fullName: isAuthExist.fullName,
-                    phone: isAuthExist.phone,
+                    // phone: isAuthExist.phone,
+                    role: isAuthExist.role,
                 };
                 if (!process.env.JWT_SECRET) {
                     console.error("JWT_SECRET is not defined in environment variables");

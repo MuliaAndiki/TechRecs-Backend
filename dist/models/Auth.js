@@ -48,11 +48,11 @@ const Auth = new mongoose_1.Schema({
         type: String,
         required: true,
     },
-    phone: {
-        type: String,
-        required: true,
-        match: [/^[0-9]+$/, "Phone number must contain digits only"],
-    },
+    // phone: {
+    //   type: String,
+    //   required: true,
+    //   match: [/^[0-9]+$/, "Phone number must contain digits only"],
+    // },
     password: {
         type: String,
         required: true,
@@ -64,6 +64,11 @@ const Auth = new mongoose_1.Schema({
     token: {
         type: String,
         default: null,
+    },
+    role: {
+        type: String,
+        enum: ["user", "admin"],
+        default: "user",
     },
 }, { timestamps: true });
 exports.default = mongoose_1.default.model("Auth", Auth);

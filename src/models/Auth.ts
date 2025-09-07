@@ -18,11 +18,11 @@ const Auth = new Schema<partialAuth>(
       type: String,
       required: true,
     },
-    phone: {
-      type: String,
-      required: true,
-      match: [/^[0-9]+$/, "Phone number must contain digits only"],
-    },
+    // phone: {
+    //   type: String,
+    //   required: true,
+    //   match: [/^[0-9]+$/, "Phone number must contain digits only"],
+    // },
     password: {
       type: String,
       required: true,
@@ -34,6 +34,11 @@ const Auth = new Schema<partialAuth>(
     token: {
       type: String,
       default: null,
+    },
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
     },
   },
   { timestamps: true }
