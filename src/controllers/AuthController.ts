@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
 import Auth from "../models/Auth";
 import {
-  TAuth,
+  IAuth,
   PickLogin,
   PickRegister,
   JwtPayload,
   PickLogout,
+  PickGetProfile,
 } from "../types/auth.types";
 import { verifyToken } from "../middleware/auth";
 import bcryptjs from "bcryptjs";
@@ -32,7 +33,7 @@ class AuthController {
         return;
       }
 
-      const isAlreadyRegistered: TAuth | null = await Auth.findOne({
+      const isAlreadyRegistered: IAuth | null = await Auth.findOne({
         email: auth.email,
       });
 
@@ -87,7 +88,7 @@ class AuthController {
         return;
       }
 
-      const isAuthExist: TAuth | null = await Auth.findOne({
+      const isAuthExist: IAuth | null = await Auth.findOne({
         email: auth.email,
       });
       if (!isAuthExist) {
@@ -161,9 +162,7 @@ class AuthController {
     async (req: Request, res: Response): Promise<void> => {
       try {
         const { _id }: PickLogout = req.user as JwtPayload;
-
-        const auth: TAuth | null = await Auth.findById(_id);
-
+        const auth: IAuth | null = await Auth.findById(_id);
         if (!auth) {
           res.status(404).json({
             status: 404,
@@ -187,6 +186,36 @@ class AuthController {
           message: "Internal server error",
         });
         return;
+      }
+    },
+  ];
+
+  public GetProfile = [
+    verifyToken,
+    async (req: Request, res: Response): Promise<void> => {
+      try {
+        const { _id }: PickGetProfile = req.user as JwtPayload;
+        const auth: IAuth | null = await Auth.findById(_id);
+
+        if (!auth) {
+          res.status(404).json({
+            status: 404,
+            message: "User ID not Found",
+          });
+          return;
+        }
+
+        res.status(200).json({
+          status: 200,
+          message: "Get Profile succesfully",
+          data: auth,
+        });
+      } catch (error) {
+        res.status(500).json({
+          status: 500,
+          message: "Server Internal Error",
+          error: error instanceof Error ? error.message : error,
+        });
       }
     },
   ];

@@ -152,6 +152,34 @@ class AuthController {
                 }
             },
         ];
+        this.GetProfile = [
+            auth_1.verifyToken,
+            async (req, res) => {
+                try {
+                    const { _id } = req.user;
+                    const auth = await Auth_1.default.findById(_id);
+                    if (!auth) {
+                        res.status(404).json({
+                            status: 404,
+                            message: "User ID not Found",
+                        });
+                        return;
+                    }
+                    res.status(200).json({
+                        status: 200,
+                        message: "Get Profile succesfully",
+                        data: auth,
+                    });
+                }
+                catch (error) {
+                    res.status(500).json({
+                        status: 500,
+                        message: "Server Internal Error",
+                        error: error instanceof Error ? error.message : error,
+                    });
+                }
+            },
+        ];
     }
 }
 exports.default = new AuthController();

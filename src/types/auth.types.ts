@@ -1,6 +1,6 @@
 import { Document } from "mongoose";
 
-export interface TAuth extends Document {
+export interface IAuth extends Document {
   _id: any;
   email: string;
   fullName: string;
@@ -12,10 +12,11 @@ export interface TAuth extends Document {
   __v: any;
 }
 
-export type JwtPayload = Pick<TAuth, "_id" | "email" | "fullName" | "role">;
+export type JwtPayload = Pick<IAuth, "_id" | "email" | "fullName" | "role">;
 export type PickRegister = Pick<
-  TAuth,
+  IAuth,
   "email" | "fullName" | "password" | "role"
 >;
-export type PickLogin = Pick<TAuth, "email" | "password">;
-export type PickLogout = Pick<TAuth, "_id">;
+export type PickLogin = Pick<IAuth, "email" | "password">;
+export type PickLogout = Pick<IAuth, "_id">;
+export type PickGetProfile = Pick<IAuth, "_id">;

@@ -1,7 +1,7 @@
 import mongoose, { Document, Schema } from "mongoose";
-import { TAuth } from "../types/auth.types";
+import { IAuth } from "../types/auth.types";
 
-type partialAuth = Partial<TAuth>;
+type partialAuth = Partial<IAuth>;
 
 const Auth = new Schema<partialAuth>(
   {
