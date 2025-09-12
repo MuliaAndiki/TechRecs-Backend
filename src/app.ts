@@ -2,6 +2,7 @@ import express, { Application, Request, Response } from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import authRouter from "./routes/AuthRouter";
+import aiRoutes from "./routes/AiRoutes";
 
 class App {
   public app: Application;
@@ -20,6 +21,7 @@ class App {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use("/api/auth", authRouter);
+    this.app.use("/api/ai", aiRoutes);
   }
 
   private routes(): void {

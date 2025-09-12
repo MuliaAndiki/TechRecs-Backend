@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const AuthRouter_1 = __importDefault(require("./routes/AuthRouter"));
+const AiRoutes_1 = __importDefault(require("./routes/AiRoutes"));
 class App {
     constructor() {
         this.app = (0, express_1.default)();
@@ -21,6 +22,7 @@ class App {
         this.app.use(express_1.default.json());
         this.app.use(express_1.default.urlencoded({ extended: true }));
         this.app.use("/api/auth", AuthRouter_1.default);
+        this.app.use("/api/ai", AiRoutes_1.default);
     }
     routes() {
         this.app.get("/", (req, res) => {
