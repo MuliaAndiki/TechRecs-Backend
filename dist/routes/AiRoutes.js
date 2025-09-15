@@ -14,6 +14,7 @@ class AiRouter {
         this.aiRouter.post("/generate", AiController_1.default.Generate);
         this.aiRouter.get("/get/:_id", AiController_1.default.GetID);
         this.aiRouter.get("/getAll", AiController_1.default.GetAll);
+        this.aiRouter.get("/getByUser/:_id", AiController_1.default.GetByUser);
     }
 }
 exports.default = new AiRouter().aiRouter;

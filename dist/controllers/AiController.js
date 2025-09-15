@@ -13,6 +13,14 @@ class AiController {
             async (req, res) => {
                 try {
                     const body = req.body;
+                    const userId = req.user?._id;
+                    if (!userId) {
+                        res.status(400).json({
+                            status: 400,
+                            message: "User Not Found",
+                        });
+                        return;
+                    }
                     if (!body.prompt) {
                         res.status(400).json({
                             status: 400,
@@ -20,14 +28,14 @@ class AiController {
                         });
                         return;
                     }
-                    const aiDoc = await Ai_1.default.create({ prompt: body.prompt });
-                    const text = await (0, ai_service_1.RetryGenerate)(body.prompt);
+                    const aiDoc = await Ai_1.default.create({ prompt: body.prompt, user: userId });
+                    const text = await (0, ai_service_1.RetryGenerate)(body.prompt.text);
                     aiDoc.response = text;
                     await aiDoc.save();
-                    res.json({
-                        _id: aiDoc._id,
-                        prompt: aiDoc.prompt,
-                        response: text,
+                    res.status(200).json({
+                        status: 200,
+                        message: "Succesfuly Generate",
+                        data: aiDoc,
                     });
                 }
                 catch (error) {
@@ -45,6 +53,12 @@ class AiController {
                 try {
                     const params = { _id: req.params._id };
                     const aiDoc = await Ai_1.default.findById(params._id);
+                    if (!params) {
+                        res.status(400).json({
+                            status: 400,
+                            message: "Params Not Found",
+                        });
+                    }
                     if (!aiDoc) {
                         res.status(404).json({
                             status: 404,
@@ -71,10 +85,31 @@ class AiController {
             auth_1.verifyToken,
             async (req, res) => {
                 try {
-                    const aiDoc = await Ai_1.default.find().sort({ createdAt: -1 });
+                    const aiDoc = await Ai_1.default.find();
                     res.status(200).json({
                         status: 200,
                         message: "Successfully getAll",
+                        data: aiDoc,
+                    });
+                }
+                catch (error) {
+                    res.status(500).json({
+                        status: 500,
+                        message: "Server Internal Error",
+                        error: error instanceof Error ? error.message : error,
+                    });
+                }
+            },
+        ];
+        this.GetByUser = [
+            auth_1.verifyToken,
+            async (req, res) => {
+                try {
+                    const id = req.params?._id;
+                    const aiDoc = await Ai_1.default.find({ user: id }).select("prompt _id");
+                    res.status(200).json({
+                        status: 200,
+                        message: "Succesfuly GetByuser",
                         data: aiDoc,
                     });
                 }

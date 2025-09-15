@@ -12,6 +12,7 @@ class AiRouter {
     this.aiRouter.post("/generate", AiController.Generate);
     this.aiRouter.get("/get/:_id", AiController.GetID);
     this.aiRouter.get("/getAll", AiController.GetAll);
+    this.aiRouter.get("/getByUser/:_id", AiController.GetByUser);
   }
 }
 
