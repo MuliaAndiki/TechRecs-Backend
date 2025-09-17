@@ -18,5 +18,4 @@ export type PickRegister = Pick<
   "email" | "fullName" | "password" | "role"
 >;
 export type PickLogin = Pick<IAuth, "email" | "password">;
-export type PickLogout = Pick<IAuth, "_id">;
-export type PickGetProfile = Pick<IAuth, "_id">;
+export type PickId = Pick<IAuth, "_id">;

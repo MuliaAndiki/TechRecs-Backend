@@ -5,8 +5,7 @@ import {
   PickLogin,
   PickRegister,
   JwtPayload,
-  PickLogout,
-  PickGetProfile,
+  PickId,
 } from "../types/auth.types";
 import { verifyToken } from "../middleware/auth";
 import bcryptjs from "bcryptjs";
@@ -161,7 +160,7 @@ class AuthController {
     verifyToken,
     async (req: Request, res: Response): Promise<void> => {
       try {
-        const { _id }: PickLogout = req.user as JwtPayload;
+        const { _id }: PickId = req.user as JwtPayload;
         const auth: IAuth | null = await Auth.findById(_id);
         if (!auth) {
           res.status(404).json({
@@ -194,7 +193,7 @@ class AuthController {
     verifyToken,
     async (req: Request, res: Response): Promise<void> => {
       try {
-        const { _id }: PickGetProfile = req.user as JwtPayload;
+        const { _id }: PickId = req.user as JwtPayload;
         const auth: IAuth | null = await Auth.findById(_id);
 
         if (!auth) {
@@ -208,6 +207,35 @@ class AuthController {
         res.status(200).json({
           status: 200,
           message: "Get Profile succesfully",
+          data: auth,
+        });
+      } catch (error) {
+        res.status(500).json({
+          status: 500,
+          message: "Server Internal Error",
+          error: error instanceof Error ? error.message : error,
+        });
+      }
+    },
+  ];
+  public DeleteAkun = [
+    verifyToken,
+    async (req: Request, res: Response): Promise<void> => {
+      try {
+        const { _id }: PickId = req.user as JwtPayload;
+        const auth = await Auth.findById(_id);
+        if (!auth) {
+          res.status(400).json({
+            status: 400,
+            message: "User Not Found",
+          });
+          return;
+        }
+
+        await auth.deleteOne();
+        res.status(200).json({
+          status: 200,
+          message: "Succesfuly Delete User",
           data: auth,
         });
       } catch (error) {
