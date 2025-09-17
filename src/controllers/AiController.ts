@@ -1,8 +1,12 @@
 import { Request, Response } from "express";
 import Ai from "../models/Ai";
 import { verifyToken } from "../middleware/auth";
-import { PayloadAi, PickGetByUser } from "../types/ai.types";
-import { PickGenerate, PickGetById } from "../types/ai.types";
+import {
+  PayloadAi,
+  PickDeleteById,
+  PickGenerate,
+  PickId,
+} from "../types/ai.types";
 import { RetryGenerate } from "../service/ai.service";
 import Auth from "../models/Auth";
 
@@ -60,7 +64,7 @@ class AiController {
     verifyToken,
     async (req: Request, res: Response): Promise<void> => {
       try {
-        const params: PickGetById = { _id: req.params._id };
+        const params: PickId = { _id: req.params._id };
         const aiDoc = await Ai.findById(params._id);
 
         if (!params) {
@@ -124,6 +128,43 @@ class AiController {
           status: 200,
           message: "Succesfuly GetByuser",
           data: aiDoc,
+        });
+      } catch (error) {
+        res.status(500).json({
+          status: 500,
+          message: "Server Internal Error",
+          error: error instanceof Error ? error.message : error,
+        });
+      }
+    },
+  ];
+  // Belum Test
+  public DeleteChatUserById = [
+    verifyToken,
+    async (req: Request, res: Response): Promise<void> => {
+      try {
+        const { chatId, userId } = req.params;
+        const user = await Auth.findById(userId);
+        if (!user) {
+          res.status(400).json({
+            status: 400,
+            message: "User NotFound",
+          });
+          return;
+        }
+
+        const result = await Ai.deleteOne({ _id: chatId, user: userId });
+        if (result.deletedCount === 0) {
+          res.status(404).json({
+            status: 404,
+            message: "Chat Not Found or Not Belong to User",
+          });
+          return;
+        }
+        res.status(200).json({
+          status: 200,
+          message: "Succesfully Delete Historty Chat",
+          data: result.deletedCount,
         });
       } catch (error) {
         res.status(500).json({

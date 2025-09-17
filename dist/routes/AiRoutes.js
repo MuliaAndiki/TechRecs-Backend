@@ -15,6 +15,7 @@ class AiRouter {
         this.aiRouter.get("/get/:_id", AiController_1.default.GetID);
         this.aiRouter.get("/getAll", AiController_1.default.GetAll);
         this.aiRouter.get("/getByUser/:_id", AiController_1.default.GetByUser);
+        this.aiRouter.delete("/chat/:userId/:chatId", AiController_1.default.DeleteChatUserById);
     }
 }
 exports.default = new AiRouter().aiRouter;

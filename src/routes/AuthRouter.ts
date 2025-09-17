@@ -13,6 +13,7 @@ class AuthRouter {
     this.authRouter.post("/login", AuthController.login);
     this.authRouter.post("/logout", AuthController.logout);
     this.authRouter.get("/getProfile", AuthController.GetProfile);
+    this.authRouter.delete("/delete", AuthController.DeleteAkun);
   }
 }
 

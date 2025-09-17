@@ -15,6 +15,7 @@ class AuthRouter {
         this.authRouter.post("/login", AuthController_1.default.login);
         this.authRouter.post("/logout", AuthController_1.default.logout);
         this.authRouter.get("/getProfile", AuthController_1.default.GetProfile);
+        this.authRouter.delete("/delete", AuthController_1.default.DeleteAkun);
     }
 }
 exports.default = new AuthRouter().authRouter;

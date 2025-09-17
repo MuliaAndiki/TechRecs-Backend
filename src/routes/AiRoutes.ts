@@ -13,6 +13,10 @@ class AiRouter {
     this.aiRouter.get("/get/:_id", AiController.GetID);
     this.aiRouter.get("/getAll", AiController.GetAll);
     this.aiRouter.get("/getByUser/:_id", AiController.GetByUser);
+    this.aiRouter.delete(
+      "/chat/:userId/:chatId",
+      AiController.DeleteChatUserById
+    );
   }
 }
 

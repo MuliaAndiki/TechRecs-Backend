@@ -180,6 +180,35 @@ class AuthController {
                 }
             },
         ];
+        this.DeleteAkun = [
+            auth_1.verifyToken,
+            async (req, res) => {
+                try {
+                    const { _id } = req.user;
+                    const auth = await Auth_1.default.findById(_id);
+                    if (!auth) {
+                        res.status(400).json({
+                            status: 400,
+                            message: "User Not Found",
+                        });
+                        return;
+                    }
+                    await auth.deleteOne();
+                    res.status(200).json({
+                        status: 200,
+                        message: "Succesfuly Delete User",
+                        data: auth,
+                    });
+                }
+                catch (error) {
+                    res.status(500).json({
+                        status: 500,
+                        message: "Server Internal Error",
+                        error: error instanceof Error ? error.message : error,
+                    });
+                }
+            },
+        ];
     }
 }
 exports.default = new AuthController();

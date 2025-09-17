@@ -96,6 +96,6 @@ export interface IIA extends Document {
 }
 
 export type PayloadAi = Pick<IIA, "prompt" | "_id">;
-export type PickGetByUser = Pick<IIA, "prompt" | "user">;
 export type PickGenerate = Pick<IIA, "prompt">;
-export type PickGetById = Pick<IIA, "_id">;
+export type PickId = Pick<IIA, "_id">;
+export type PickDeleteById = Pick<IIA, "_id" | "user">;
